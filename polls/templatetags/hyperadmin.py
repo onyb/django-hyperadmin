@@ -9,10 +9,9 @@ register = Library()
 class HyperScript(Node):
     def render(self, context):
         form = context['adminform']
-        # context['hyperscript'] = data
 
+        fieldsets = []
         for fieldset in form:
-            fieldsets = []
             for line in fieldset:
                 fields = []
                 for field in line:
@@ -33,6 +32,8 @@ class HyperScript(Node):
                     )
 
                 fieldsets.append(fields)
+
+        context['json'] = fieldsets
         return ''
 
 
