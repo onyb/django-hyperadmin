@@ -1,3 +1,5 @@
+import json
+from datetime import date, datetime
 from html.parser import HTMLParser
 from xml.etree import cElementTree as etree
 
@@ -10,7 +12,9 @@ class HyperScript(Node):
     def render(self, context):
         form = context['adminform']
 
+        parser = DOMParser()
         fieldsets = []
+        fields = []
         for fieldset in form:
             for line in fieldset:
                 fields = []
@@ -30,10 +34,17 @@ class HyperScript(Node):
                             **field.__dict__
                         )
                     )
+            fieldsets.append({
+                'fields': fields,
+                'name': fieldset.name,
+                'description': fieldset.description,
+                'classes': fieldset.classes
+            })
 
-                fieldsets.append(fields)
 
-        context['json'] = fieldsets
+        context['json'] = json.dumps(fieldsets, default=json_serial)
+
+        print(context['json'])
         return ''
 
 
@@ -73,8 +84,11 @@ class DOMParser(HTMLParser):
         self.tb.data(data)
 
     def close(self):
-        HTMLParser.close(self)
+        super().close()
         return self.tb.close()
 
-
-parser = DOMParser()
+def json_serial(obj):
+    if isinstance(obj, (datetime, date)):
+        serial = obj.isoformat()
+        return serial
+    raise TypeError("Type %s not serializable" % type(obj))

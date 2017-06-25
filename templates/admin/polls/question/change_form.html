@@ -1,11 +1,16 @@
 {% extends "admin/change_form.html" %}
-{% load staticfiles hyperadmin %}
-{% generate_hyperscript %}
+{% load staticfiles %}
 
 {% block field_sets %}
+{% load hyperadmin %}
+{% generate_hyperscript %}
 
-<div id="randomstr"></div>
+<div id="hyperadmin"></div>
 
+<script type="text/javascript">
+    var _Y_ = {};
+    _Y_.hadmin = {{ json | safe }};
+</script>
 <script type="text/javascript" src="{% static 'bundles/main.js' %}"></script>
 
 {% endblock %}

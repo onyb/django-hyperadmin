@@ -1,14 +1,7 @@
-var React = require('react')
-var ReactDOM = require('react-dom')
+import 'babel-polyfill';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-var Hello = React.createClass ({
-    render: function() {
-        return (
-            <h1>
-            Hello, React!
-            </h1>
-        )
-    }
-})
+import QuestionsAdmin from './questions';
 
-ReactDOM.render(<Hello />, document.getElementById('randomstr'))
+ReactDOM.render(<QuestionsAdmin />, document.getElementById('hyperadmin'))
